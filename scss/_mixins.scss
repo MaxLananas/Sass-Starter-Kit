@@ -1,0 +1,236 @@
+// ============================================================
+// 📌 FICHIER : _mixins.scss
+// 📝 RÔLE : Les mixins sont des "fonctions" réutilisables.
+//           Tu les définis une fois avec @mixin,
+//           puis tu les appelles avec @include.
+//
+// 💡 Un mixin peut prendre des PARAMÈTRES (comme une vraie fonction)
+//    et peut avoir des valeurs PAR DÉFAUT.
+// ============================================================
+
+
+// ----- 📱 RESPONSIVE : Media Queries simplifiées -----
+// Au lieu d'écrire @media (min-width: 768px) { ... } à chaque fois,
+// on crée un mixin qui fait le travail pour nous.
+//
+// UTILISATION :
+//   .mon-element {
+//     font-size: 14px;                    ← mobile par défaut
+//     @include responsive(tablette) {
+//       font-size: 18px;                  ← tablette et plus
+//     }
+//   }
+
+@mixin responsive($breakpoint) {
+  // @if vérifie quelle taille on veut cibler
+  @if $breakpoint == mobile {
+    @media (min-width: $breakpoint-mobile) {
+      @content;   // ← @content = le code qu'on met entre les { }
+    }
+  } @else if $breakpoint == tablette {
+    @media (min-width: $breakpoint-tablette) {
+      @content;
+    }
+  } @else if $breakpoint == laptop {
+    @media (min-width: $breakpoint-laptop) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: $breakpoint-desktop) {
+      @content;
+    }
+  } @else if $breakpoint == wide {
+    @media (min-width: $breakpoint-wide) {
+      @content;
+    }
+  }
+}
+
+
+// ----- 🎯 FLEXBOX : Raccourcis -----
+// Parce qu'on écrit display: flex + justify-content + align-items
+// des CENTAINES de fois dans un projet
+
+// Centrer un élément en flex (horizontal + vertical)
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Flex avec direction et alignement personnalisés
+@mixin flex(
+  $direction: row,          // row | column
+  $justify: flex-start,     // flex-start | center | space-between...
+  $align: stretch,          // stretch | center | flex-start...
+  $wrap: nowrap,            // nowrap | wrap
+  $gap: 0                   // espacement entre les éléments
+) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  gap: $gap;
+}
+
+
+// ----- 🔘 BOUTONS -----
+// Un mixin ultra-complet pour générer des boutons
+//
+// UTILISATION :
+//   .btn-primary { @include bouton($couleur-primaire); }
+//   .btn-danger  { @include bouton($couleur-danger); }
+
+@mixin bouton($bg-color, $text-color: $blanc, $taille: 'normal') {
+  // Styles de base
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $espace-sm;
+  background-color: $bg-color;
+  color: $text-color;
+  border: 2px solid $bg-color;
+  border-radius: $border-radius;
+  font-family: $police-principale;
+  font-weight: $poids-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-normale;
+  white-space: nowrap;        // Le texte ne retourne pas à la ligne
+
+  // Taille conditionnelle
+  @if $taille == 'petit' {
+    padding: $espace-xs $espace-md;
+    font-size: $taille-sm;
+  } @else if $taille == 'normal' {
+    padding: $espace-sm $espace-lg;
+    font-size: $taille-base;
+  } @else if $taille == 'grand' {
+    padding: $espace-md $espace-xl;
+    font-size: $taille-lg;
+  }
+
+  // État : survol (hover)
+  &:hover {
+    background-color: darken($bg-color, 10%);  // darken = foncer la couleur
+    border-color: darken($bg-color, 10%);
+    transform: translateY(-2px);                 // Légère élévation
+    box-shadow: 0 4px 12px rgba($bg-color, 0.4);
+  }
+
+  // État : clic (active)
+  &:active {
+    transform: translateY(0);      // Retour à la position normale
+    box-shadow: none;
+  }
+
+  // État : focus (navigation clavier - accessibilité !)
+  &:focus-visible {
+    outline: 3px solid rgba($bg-color, 0.5);
+    outline-offset: 2px;
+  }
+
+  // État : désactivé
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// Variante : bouton "outline" (contour seulement)
+@mixin bouton-outline($color) {
+  @include bouton($color);
+  background-color: transparent;
+  color: $color;
+
+  &:hover {
+    background-color: $color;
+    color: $blanc;
+  }
+}
+
+
+// ----- 🃏 CARD (Carte) -----
+@mixin card($padding: $espace-lg) {
+  background: $couleur-fond-blanc;
+  border-radius: $border-radius-lg;
+  box-shadow: $ombre-sm;
+  padding: $padding;
+  transition: $transition-normale;
+
+  &:hover {
+    box-shadow: $ombre-md;
+    transform: translateY(-4px);
+  }
+}
+
+
+// ----- 📝 TEXTE : Tronquer le texte -----
+// Quand le texte est trop long, on met "..." à la fin
+//
+// $lignes = nombre de lignes avant de couper
+// UTILISATION : @include tronquer(2);  ← coupe après 2 lignes
+
+@mixin tronquer($lignes: 1) {
+  @if $lignes == 1 {
+    // Méthode classique pour 1 ligne
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    // Méthode multi-lignes (CSS moderne)
+    display: -webkit-box;
+    -webkit-line-clamp: $lignes;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+
+// ----- 🖼️ IMAGE DE FOND -----
+@mixin background-image($url, $position: center, $size: cover) {
+  background-image: url($url);
+  background-position: $position;
+  background-size: $size;
+  background-repeat: no-repeat;
+}
+
+
+// ----- 📐 RATIO D'ASPECT -----
+// Force un élément à garder un ratio (ex: 16/9 pour une vidéo)
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: $width / $height;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+
+// ----- 🌈 DÉGRADÉ (Gradient) -----
+@mixin degrade($couleur1, $couleur2, $direction: to right) {
+  background: linear-gradient($direction, $couleur1, $couleur2);
+}
+
+
+// ----- ✨ GLASS MORPHISM (effet verre dépoli) -----
+// Effet très tendance en 2024
+@mixin glassmorphism($opacity: 0.1, $blur: 10px) {
+  background: rgba($blanc, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba($blanc, 0.2);
+}
+
+
+// ----- 📏 TAILLE (raccourci width + height) -----
+@mixin taille($width, $height: $width) {
+  width: $width;
+  height: $height;
+}

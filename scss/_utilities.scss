@@ -1,0 +1,199 @@
+// ============================================================
+// 📌 FICHIER : _utilities.scss
+// 📝 RÔLE : Classes utilitaires (utility classes).
+//           Des petites classes à usage unique qu'on combine
+//           directement dans le HTML.
+//
+// 💡 C'est le même concept que Tailwind CSS !
+//    Ex: <div class="text-center mt-3 p-2">
+//
+//    Les boucles Sass génèrent ces classes AUTOMATIQUEMENT.
+// ============================================================
+
+
+// ========== 📏 MARGES & PADDINGS ==========
+// Génère : .m-0, .m-1, .m-2 ... .mt-0, .mt-1 ... .p-0, .p-1 ...
+
+// Liste des valeurs d'espacement
+$espacements: (
+  0: 0,
+  1: $espace-xs,     // 4px
+  2: $espace-sm,     // 8px
+  3: $espace-md,     // 16px
+  4: $espace-lg,     // 24px
+  5: $espace-xl,     // 32px
+  6: $espace-xxl,    // 48px
+);
+
+// Les directions
+$directions: (
+  't': 'top',
+  'r': 'right',
+  'b': 'bottom',
+  'l': 'left',
+);
+
+// On boucle sur chaque valeur d'espacement
+@each $num, $valeur in $espacements {
+  // Margin toutes directions : .m-0, .m-1, .m-2...
+  .m-#{$num} { margin: $valeur; }
+
+  // Padding toutes directions : .p-0, .p-1, .p-2...
+  .p-#{$num} { padding: $valeur; }
+
+  // Margin X (horizontal) et Y (vertical)
+  .mx-#{$num} { margin-left: $valeur; margin-right: $valeur; }
+  .my-#{$num} { margin-top: $valeur; margin-bottom: $valeur; }
+  .px-#{$num} { padding-left: $valeur; padding-right: $valeur; }
+  .py-#{$num} { padding-top: $valeur; padding-bottom: $valeur; }
+
+  // On boucle sur chaque direction : .mt-0, .mr-1, .mb-2, .ml-3...
+  @each $lettre, $direction in $directions {
+    .m#{$lettre}-#{$num} { margin-#{$direction}: $valeur; }
+    .p#{$lettre}-#{$num} { padding-#{$direction}: $valeur; }
+  }
+}
+
+// Margin auto (pour centrer)
+.mx-auto { margin-left: auto; margin-right: auto; }
+.ml-auto { margin-left: auto; }
+.mr-auto { margin-right: auto; }
+
+
+// ========== 📝 TEXTE ==========
+
+.text-center  { text-align: center; }
+.text-left    { text-align: left; }
+.text-right   { text-align: right; }
+
+.text-bold    { font-weight: $poids-bold; }
+.text-light   { font-weight: $poids-light; }
+.text-italic  { font-style: italic; }
+
+.text-uppercase   { text-transform: uppercase; letter-spacing: 1px; }
+.text-lowercase   { text-transform: lowercase; }
+.text-capitalize  { text-transform: capitalize; }
+
+// Tailles de texte
+.text-xs   { font-size: $taille-xs; }
+.text-sm   { font-size: $taille-sm; }
+.text-base { font-size: $taille-base; }
+.text-lg   { font-size: $taille-lg; }
+.text-xl   { font-size: $taille-xl; }
+.text-xxl  { font-size: $taille-xxl; }
+
+// Couleurs de texte (générées par boucle)
+$couleurs-texte: (
+  'primary':   $couleur-primaire,
+  'secondary': $couleur-secondaire,
+  'success':   $couleur-succes,
+  'danger':    $couleur-danger,
+  'warning':   $couleur-warning,
+  'muted':     $couleur-texte-muted,
+  'white':     $blanc,
+  'dark':      $noir,
+);
+
+@each $nom, $couleur in $couleurs-texte {
+  .text-#{$nom} { color: $couleur; }
+  .bg-#{$nom}   { background-color: $couleur; }
+}
+
+
+// ========== 👁️ AFFICHAGE ==========
+
+.d-none          { display: none; }
+.d-block         { display: block; }
+.d-inline        { display: inline; }
+.d-inline-block  { display: inline-block; }
+.d-flex          { display: flex; }
+.d-grid          { display: grid; }
+
+// Flexbox utilitaires
+.flex-center     { @include flex-center; }
+.flex-wrap       { flex-wrap: wrap; }
+.flex-column     { flex-direction: column; }
+
+.justify-center  { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around  { justify-content: space-around; }
+.justify-end     { justify-content: flex-end; }
+
+.align-center    { align-items: center; }
+.align-start     { align-items: flex-start; }
+.align-end       { align-items: flex-end; }
+
+// Gap (espacement flex/grid)
+@each $num, $valeur in $espacements {
+  .gap-#{$num} { gap: $valeur; }
+}
+
+
+// ========== 📐 DIMENSIONS ==========
+
+.w-100  { width: 100%; }
+.w-75   { width: 75%; }
+.w-50   { width: 50%; }
+.w-25   { width: 25%; }
+.h-100  { height: 100%; }
+
+.w-screen { width: 100vw; }
+.h-screen { height: 100vh; }
+
+
+// ========== 🎨 BORDURES & ARRONDIS ==========
+
+.rounded-sm   { border-radius: $border-radius-sm; }
+.rounded      { border-radius: $border-radius; }
+.rounded-lg   { border-radius: $border-radius-lg; }
+.rounded-xl   { border-radius: $border-radius-xl; }
+.rounded-full { border-radius: $border-radius-rond; }
+.rounded-pill { border-radius: $border-radius-pill; }
+.rounded-none { border-radius: 0; }
+
+.border       { border: $bordure; }
+.border-none  { border: none; }
+
+
+// ========== 🌑 OMBRES ==========
+
+.shadow-none  { box-shadow: none; }
+.shadow-sm    { box-shadow: $ombre-sm; }
+.shadow       { box-shadow: $ombre-md; }
+.shadow-lg    { box-shadow: $ombre-lg; }
+.shadow-xl    { box-shadow: $ombre-xl; }
+
+
+// ========== 📱 RESPONSIVE : Cacher/Montrer ==========
+
+// Caché sur mobile, visible sur tablette+
+.hidden-mobile {
+  @media (max-width: $breakpoint-tablette) {
+    display: none !important;
+  }
+}
+
+// Visible SEULEMENT sur mobile
+.visible-mobile {
+  display: none !important;
+  @media (max-width: $breakpoint-tablette) {
+    display: block !important;
+  }
+}
+
+
+// ========== 🔧 DIVERS ==========
+
+.overflow-hidden { overflow: hidden; }
+.cursor-pointer  { cursor: pointer; }
+.select-none     { user-select: none; }        // Empêche la sélection du texte
+.opacity-50      { opacity: 0.5; }
+.opacity-75      { opacity: 0.75; }
+
+// Séparateur horizontal
+.divider {
+  height: 1px;
+  background-color: $bordure-couleur;
+  margin: $espace-lg 0;
+  border: none;
+}

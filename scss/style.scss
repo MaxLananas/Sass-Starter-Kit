@@ -1,0 +1,36 @@
+// ============================================================
+// 📌 FICHIER : style.scss (FICHIER PRINCIPAL)
+// 📝 RÔLE : Ce fichier N'ÉCRIT presque rien lui-même.
+//           Il se contente d'IMPORTER tous les partials
+//           dans le bon ordre.
+//
+// ⚠️  L'ORDRE D'IMPORT EST IMPORTANT :
+//     1. Variables & Mixins (utilisés partout)
+//     2. Reset (base propre)
+//     3. Layout (structure)
+//     4. Components (éléments d'interface)
+//     5. Utilities (classes utilitaires - en dernier pour
+//        qu'elles puissent écraser les autres styles)
+//
+// 💡 @use est la méthode moderne (remplace @import)
+//    Mais @import fonctionne toujours et est plus simple
+//    pour débuter.
+// ============================================================
+
+// 1️⃣ Fondations
+@import 'variables';        // Toutes nos variables
+@import 'mixins';           // Toutes nos fonctions
+
+// 2️⃣ Base
+@import 'reset';            // Reset CSS
+
+// 3️⃣ Structure
+@import 'layout';           // Container, grille, sections
+
+// 4️⃣ Composants
+@import 'navigation';       // Navbar
+@import 'components';       // Boutons, cards, badges, formulaires...
+@import 'animations';       // Animations
+
+// 5️⃣ Utilitaires (TOUJOURS en dernier !)
+@import 'utilities';        // Classes utilitaires

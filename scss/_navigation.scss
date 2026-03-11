@@ -1,0 +1,99 @@
+// ============================================================
+// 📌 FICHIER : _navigation.scss
+// 📝 RÔLE : La barre de navigation du site
+// ============================================================
+
+.navbar {
+  position: sticky;                    // Reste collée en haut au scroll
+  top: 0;
+  z-index: $z-navbar;
+  height: $navbar-hauteur;
+  background-color: $blanc;
+  box-shadow: $ombre-xs;
+  @include flex($align: center);
+
+  &__container {
+    @include flex($justify: space-between, $align: center);
+    width: 100%;
+    max-width: $largeur-max;
+    margin: 0 auto;
+    padding: 0 $espace-md;
+  }
+
+  // Le logo
+  &__logo {
+    font-size: $taille-xl;
+    font-weight: $poids-black;
+    color: $couleur-primaire;
+    letter-spacing: -1px;
+
+    span {
+      color: $couleur-secondaire;
+    }
+  }
+
+  // Les liens de navigation
+  &__links {
+    @include flex($align: center, $gap: $espace-xs);
+
+    // Cacher sur mobile (on affichera un menu burger)
+    @media (max-width: $breakpoint-tablette) {
+      display: none;
+    }
+  }
+
+  &__link {
+    padding: $espace-sm $espace-md;
+    border-radius: $border-radius;
+    font-weight: $poids-medium;
+    font-size: $taille-sm;
+    color: $couleur-texte-clair;
+    transition: $transition-rapide;
+    position: relative;
+
+    &:hover {
+      background-color: rgba($couleur-primaire, 0.08);
+      color: $couleur-primaire;
+    }
+
+    // Lien actif (page actuelle)
+    &--active {
+      color: $couleur-primaire;
+      font-weight: $poids-bold;
+
+      // Petit indicateur sous le lien actif
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 3px;
+        background-color: $couleur-primaire;
+        border-radius: $border-radius-pill;
+      }
+    }
+  }
+
+  // Bouton menu burger (mobile)
+  &__burger {
+    display: none;                     // Caché par défaut (desktop)
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+
+    @media (max-width: $breakpoint-tablette) {
+      display: flex;                   // Visible sur mobile
+    }
+
+    span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: $couleur-texte;
+      border-radius: 3px;
+      transition: $transition-normale;
+    }
+  }
+}

@@ -1,0 +1,343 @@
+// ============================================================
+// 📌 FICHIER : _components.scss
+// 📝 RÔLE : Tous les composants réutilisables du site.
+//           Un composant = un élément d'interface autonome
+//           (bouton, carte, badge, alerte, avatar, formulaire...)
+// ============================================================
+
+
+// ========== 🔘 BOUTONS ==========
+
+.btn {
+  @include bouton($couleur-primaire);
+
+  // Variantes de couleur (grâce au mixin !)
+  &--secondary  { @include bouton($couleur-secondaire); }
+  &--success    { @include bouton($couleur-succes); }
+  &--danger     { @include bouton($couleur-danger); }
+  &--warning    { @include bouton($couleur-warning, $noir); }  // Texte noir sur fond jaune
+  &--dark       { @include bouton($noir); }
+
+  // Variantes outline
+  &--outline         { @include bouton-outline($couleur-primaire); }
+  &--outline-danger  { @include bouton-outline($couleur-danger); }
+
+  // Variantes de taille
+  &--sm { @include bouton($couleur-primaire, $blanc, 'petit'); }
+  &--lg { @include bouton($couleur-primaire, $blanc, 'grand'); }
+
+  // Bouton qui prend toute la largeur
+  &--full {
+    width: 100%;
+  }
+
+  // Bouton avec seulement une icône (rond)
+  &--icon {
+    @include taille(44px);
+    border-radius: $border-radius-rond;
+    padding: 0;
+  }
+
+  // Bouton "pill" (très arrondi)
+  &--pill {
+    border-radius: $border-radius-pill;
+  }
+}
+
+// Groupe de boutons
+.btn-group {
+  @include flex($gap: $espace-sm);
+
+  .btn {
+    border-radius: 0;
+
+    &:first-child { border-radius: $border-radius 0 0 $border-radius; }
+    &:last-child  { border-radius: 0 $border-radius $border-radius 0; }
+  }
+}
+
+
+// ========== 🃏 CARDS (Cartes) ==========
+
+.card {
+  @include card;
+  overflow: hidden;      // Le contenu ne dépasse pas des bords arrondis
+
+  // Image en haut de la carte
+  &__image {
+    // On utilise le ratio 16:9 (comme les vidéos YouTube)
+    @include aspect-ratio(16, 9);
+    margin: -$espace-lg;             // Annule le padding du parent
+    margin-bottom: $espace-md;       // Espace en dessous
+
+    img {
+      transition: $transition-lente;
+    }
+  }
+
+  // Au survol de la carte, l'image zoome légèrement
+  &:hover &__image img {
+    transform: scale(1.05);
+  }
+
+  // Tag/catégorie en haut de la carte
+  &__tag {
+    display: inline-block;
+    background-color: rgba($couleur-primaire, 0.1);
+    color: $couleur-primaire;
+    padding: $espace-xs $espace-sm;
+    border-radius: $border-radius-pill;
+    font-size: $taille-xs;
+    font-weight: $poids-semibold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: $espace-sm;
+  }
+
+  // Titre de la carte
+  &__title {
+    font-size: $taille-xl;
+    margin-bottom: $espace-sm;
+    color: $noir;
+  }
+
+  // Description
+  &__text {
+    color: $couleur-texte-clair;
+    line-height: $line-height-aéré;
+    @include tronquer(3);        // Tronque après 3 lignes
+    margin-bottom: $espace-md;
+  }
+
+  // Pied de carte (auteur, date, etc.)
+  &__footer {
+    @include flex($justify: space-between, $align: center);
+    padding-top: $espace-md;
+    border-top: $bordure;
+    font-size: $taille-sm;
+    color: $couleur-texte-muted;
+  }
+}
+
+
+// ========== 🏷️ BADGES ==========
+
+// Un badge = petit indicateur (ex: "Nouveau", "3 notifications")
+// Généré automatiquement avec une boucle !
+
+// On crée une map (dictionnaire clé → valeur)
+$badge-couleurs: (
+  'primary':   $couleur-primaire,
+  'secondary': $couleur-secondaire,
+  'success':   $couleur-succes,
+  'danger':    $couleur-danger,
+  'warning':   $couleur-warning,
+);
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $espace-xs $espace-sm;
+  border-radius: $border-radius-pill;
+  font-size: $taille-xs;
+  font-weight: $poids-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  // La boucle @each parcourt chaque paire clé/valeur de la map
+  @each $nom, $couleur in $badge-couleurs {
+    &--#{$nom} {
+      background-color: rgba($couleur, 0.15);   // Fond transparent
+      color: $couleur;
+    }
+  }
+}
+
+
+// ========== ⚠️ ALERTES ==========
+
+.alert {
+  padding: $espace-md $espace-lg;
+  border-radius: $border-radius;
+  font-size: $taille-sm;
+  font-weight: $poids-medium;
+  @include flex($align: center, $gap: $espace-sm);
+
+  // Même technique : on boucle sur les couleurs
+  @each $nom, $couleur in $badge-couleurs {
+    &--#{$nom} {
+      background-color: rgba($couleur, 0.1);
+      color: darken($couleur, 15%);
+      border-left: 4px solid $couleur;
+    }
+  }
+
+  // Bouton fermer dans l'alerte
+  &__close {
+    margin-left: auto;                 // Pousse à droite
+    @include taille(24px);
+    @include flex-center;
+    border-radius: $border-radius-rond;
+    transition: $transition-rapide;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+
+// ========== 👤 AVATAR ==========
+
+.avatar {
+  @include taille(48px);
+  border-radius: $border-radius-rond;
+  overflow: hidden;
+  border: 3px solid $blanc;
+  box-shadow: $ombre-sm;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Variantes de taille
+  &--sm { @include taille(32px); }
+  &--lg { @include taille(64px); }
+  &--xl { @include taille(96px); }
+}
+
+// Groupe d'avatars qui se chevauchent
+.avatar-group {
+  display: flex;
+
+  .avatar {
+    // Chaque avatar chevauche le précédent de 12px
+    margin-left: -12px;
+    transition: $transition-rapide;
+
+    &:first-child { margin-left: 0; }
+
+    &:hover {
+      transform: translateY(-4px);   // Légère élévation au survol
+      z-index: 1;
+    }
+  }
+}
+
+
+// ========== 📝 FORMULAIRES ==========
+
+.form-group {
+  margin-bottom: $espace-lg;
+
+  // Le label au-dessus du champ
+  label {
+    display: block;
+    margin-bottom: $espace-xs;
+    font-weight: $poids-semibold;
+    font-size: $taille-sm;
+    color: $couleur-texte;
+  }
+
+  // Texte d'aide sous le champ
+  .form-help {
+    font-size: $taille-xs;
+    color: $couleur-texte-muted;
+    margin-top: $espace-xs;
+  }
+}
+
+// Style des champs de saisie
+.form-input {
+  width: 100%;
+  padding: $espace-sm $espace-md;
+  border: 2px solid $bordure-couleur;
+  border-radius: $border-radius;
+  font-size: $taille-base;
+  transition: $transition-rapide;
+  background-color: $blanc;
+
+  // Placeholder (texte grisé dans le champ vide)
+  &::placeholder {
+    color: $gris-moyen;
+  }
+
+  // Focus : quand on clique dans le champ
+  &:focus {
+    border-color: $couleur-primaire;
+    box-shadow: 0 0 0 3px rgba($couleur-primaire, 0.15);
+  }
+
+  // État erreur
+  &--error {
+    border-color: $couleur-danger;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($couleur-danger, 0.15);
+    }
+  }
+
+  // État succès
+  &--success {
+    border-color: $couleur-succes;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($couleur-succes, 0.15);
+    }
+  }
+}
+
+// Textarea (même style que input mais plus haut)
+textarea.form-input {
+  min-height: 120px;
+  resize: vertical;      // L'utilisateur peut redimensionner verticalement
+}
+
+
+// ========== 🔄 LOADER / SPINNER ==========
+
+.loader {
+  @include taille(40px);
+  border: 4px solid $gris-clair;
+  border-top-color: $couleur-primaire;     // Seul le haut est coloré
+  border-radius: $border-radius-rond;
+  animation: spin 0.8s linear infinite;     // Utilise l'animation "spin"
+
+  &--sm { @include taille(24px); border-width: 3px; }
+  &--lg { @include taille(60px); border-width: 5px; }
+}
+
+
+// ========== 💬 TOOLTIP ==========
+
+.tooltip {
+  position: relative;
+  cursor: help;
+
+  // Le texte du tooltip (caché par défaut)
+  &::after {
+    content: attr(data-tooltip);   // Récupère le texte depuis l'attribut HTML
+    position: absolute;
+    bottom: calc(100% + 8px);      // Au-dessus de l'élément
+    left: 50%;
+    transform: translateX(-50%);   // Centré horizontalement
+    padding: $espace-xs $espace-sm;
+    background-color: $noir;
+    color: $blanc;
+    font-size: $taille-xs;
+    border-radius: $border-radius-sm;
+    white-space: nowrap;
+    opacity: 0;                    // Invisible
+    pointer-events: none;          // Non cliquable
+    transition: $transition-rapide;
+    z-index: $z-tooltip;
+  }
+
+  // Apparaît au survol
+  &:hover::after {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,95 @@
+// ============================================================
+// 📌 FICHIER : _reset.scss
+// 📝 RÔLE : Réinitialiser les styles par défaut du navigateur.
+//           Chaque navigateur a ses propres styles de base
+//           (marges, paddings, tailles de police...).
+//           Ce fichier les "remet à zéro" pour partir sur
+//           une base cohérente et identique partout.
+// ============================================================
+
+// Le "box-sizing: border-box" est CRUCIAL :
+// Sans ça : width: 100px + padding: 20px = élément de 140px (WTF)
+// Avec ça : width: 100px + padding: 20px = élément de 100px (logique !)
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// Le HTML : on définit le scroll fluide et la taille de base
+html {
+  scroll-behavior: smooth;           // Scroll fluide vers les ancres
+  font-size: 100%;                   // = 16px (base pour les rem)
+  -webkit-text-size-adjust: 100%;    // Empêche le zoom texte sur mobile
+}
+
+// Le BODY : styles de base du texte
+body {
+  font-family: $police-principale;
+  font-size: $taille-base;
+  line-height: $line-height-normal;
+  color: $couleur-texte;
+  background-color: $couleur-fond;
+  -webkit-font-smoothing: antialiased;      // Texte plus net sur Mac
+  -moz-osx-font-smoothing: grayscale;       // Idem pour Firefox Mac
+}
+
+// Les IMAGES : responsive par défaut
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;       // Supprime l'espace fantôme sous les images
+  max-width: 100%;      // L'image ne dépasse jamais de son parent
+  height: auto;         // Garde le ratio
+}
+
+// Les LIENS : reset du style par défaut
+a {
+  color: inherit;             // Prend la couleur du parent
+  text-decoration: none;      // Pas de soulignement
+
+  &:hover {
+    color: $couleur-primaire;
+  }
+}
+
+// Les LISTES : pas de puces par défaut
+ul, ol {
+  list-style: none;
+}
+
+// Les TITRES : on les uniformise
+h1, h2, h3, h4, h5, h6 {
+  font-family: $police-titre;
+  font-weight: $poids-bold;
+  line-height: $line-height-serré;
+  color: $couleur-texte;
+}
+
+// Les éléments de FORMULAIRE : héritent de la police du body
+input,
+button,
+textarea,
+select {
+  font: inherit;        // Hérite de la police et taille du parent
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+// Les BOUTONS : reset complet
+button {
+  cursor: pointer;
+  background: none;
+}
+
+// Les TABLEAUX : reset
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}

@@ -1,0 +1,8 @@
+PS C:\Users\MAXENCE\Desktop\saas> # Compilation unique
+PS C:\Users\MAXENCE\Desktop\saas> sass style.scss style.css
+PS C:\Users\MAXENCE\Desktop\saas>
+PS C:\Users\MAXENCE\Desktop\saas> # OU compilation automatique (il surveille les changements)
+PS C:\Users\MAXENCE\Desktop\saas> sass --watch style.scss:style.css
+
+
+sass --watch scss/style.scss:css/style.css

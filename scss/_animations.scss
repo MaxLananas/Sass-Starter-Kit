@@ -1,0 +1,124 @@
+// ============================================================
+// 📌 FICHIER : _animations.scss
+// 📝 RÔLE : Toutes les animations du site.
+//           Les @keyframes définissent les étapes de l'animation.
+//           Les classes permettent de les appliquer facilement.
+// ============================================================
+
+
+// ----- 🎭 KEYFRAMES : Définition des animations -----
+
+// Apparition en fondu
+@keyframes fadeIn {
+  from {
+    opacity: 0;              // Invisible au départ
+  }
+  to {
+    opacity: 1;              // Visible à l'arrivée
+  }
+}
+
+// Apparition en fondu + glissement vers le haut
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);   // 30px plus bas
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);      // Position normale
+  }
+}
+
+// Apparition en fondu + glissement depuis la gauche
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Apparition avec zoom (de petit à taille normale)
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);       // 80% de la taille
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);         // 100% de la taille
+  }
+}
+
+// Rebond (effet "bounce")
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+// Rotation continue (pour les loaders/spinners)
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Pulsation (comme un coeur qui bat)
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+// Shake (tremblement - pour les erreurs par exemple)
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+
+// ----- 🎯 CLASSES D'ANIMATION -----
+// On les applique en HTML : <div class="anim-fadeIn">
+
+// Mixin pour appliquer une animation facilement
+@mixin animation($name, $duration: 0.6s, $delay: 0s) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-delay: $delay;
+  animation-fill-mode: both;       // Garde l'état final de l'animation
+  animation-timing-function: ease;
+}
+
+.anim-fadeIn     { @include animation(fadeIn); }
+.anim-fadeInUp   { @include animation(fadeInUp, 0.8s); }
+.anim-fadeInLeft { @include animation(fadeInLeft, 0.8s); }
+.anim-zoomIn     { @include animation(zoomIn, 0.5s); }
+.anim-bounce     { @include animation(bounce, 1s); animation-iteration-count: infinite; }
+.anim-spin       { @include animation(spin, 1s); animation-iteration-count: infinite; animation-timing-function: linear; }
+.anim-pulse      { @include animation(pulse, 2s); animation-iteration-count: infinite; }
+.anim-shake      { @include animation(shake, 0.5s); }
+
+// Délais d'animation (pour animer les éléments les uns après les autres)
+// → Donne un effet "cascade"
+@for $i from 1 through 10 {
+  .anim-delay-#{$i} {
+    animation-delay: $i * 0.1s;     // delay-1 = 0.1s, delay-2 = 0.2s, etc.
+  }
+}

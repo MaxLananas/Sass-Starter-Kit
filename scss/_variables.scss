@@ -1,0 +1,152 @@
+// ============================================================
+// 📌 FICHIER : _variables.scss
+// 📝 RÔLE : Centraliser TOUTES les valeurs du projet ici.
+//           Si tu veux changer une couleur, tu viens ICI
+//           et ça change PARTOUT dans le site.
+//           C'est la PUISSANCE des variables Sass.
+//
+// 💡 Le underscore _ devant le nom signifie que c'est un
+//    "partial" : Sass ne le compile PAS en fichier CSS séparé.
+//    Il sera importé dans le fichier principal.
+// ============================================================
+
+
+// ----- 🎨 COULEURS -----
+// On définit d'abord les couleurs "brutes"
+$noir:            #1a1a2e;
+$blanc:           #ffffff;
+$gris-clair:      #f5f5f5;
+$gris-moyen:      #b0b0b0;
+$gris-fonce:      #4a4a4a;
+
+// Couleurs de la marque (Brand)
+$bleu:            #0984e3;
+$bleu-fonce:      #0652DD;
+$bleu-clair:      #74b9ff;
+$rouge:           #e74c3c;
+$rouge-fonce:     #c0392b;
+$vert:            #00b894;
+$vert-fonce:      #00a381;
+$orange:          #f39c12;
+$violet:          #6c5ce7;
+
+// Couleurs sémantiques (on donne un SENS aux couleurs)
+// → Si tu changes de charte graphique, tu modifies juste ici
+$couleur-primaire:    $bleu;
+$couleur-secondaire:  $violet;
+$couleur-succes:      $vert;
+$couleur-danger:      $rouge;
+$couleur-warning:     $orange;
+$couleur-info:        $bleu-clair;
+
+// Couleurs de texte
+$couleur-texte:         $noir;
+$couleur-texte-clair:   $gris-fonce;
+$couleur-texte-muted:   $gris-moyen;
+
+// Couleurs de fond
+$couleur-fond:          $gris-clair;
+$couleur-fond-blanc:    $blanc;
+$couleur-fond-sombre:   $noir;
+
+
+// ----- 📐 ESPACEMENTS -----
+// On utilise une échelle cohérente (multiples de 8px)
+// C'est une bonne pratique en design : le "8px grid system"
+$espace-xs:   4px;
+$espace-sm:   8px;
+$espace-md:   16px;
+$espace-lg:   24px;
+$espace-xl:   32px;
+$espace-xxl:  48px;
+$espace-xxxl: 64px;
+
+
+// ----- 🔤 TYPOGRAPHIE -----
+$police-principale:  'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+$police-titre:       'Georgia', 'Times New Roman', serif;
+$police-code:        'Fira Code', 'Courier New', monospace;
+
+// Tailles de police (échelle modulaire)
+$taille-xs:    0.75rem;    // 12px
+$taille-sm:    0.875rem;   // 14px
+$taille-base:  1rem;       // 16px (base du navigateur)
+$taille-md:    1.125rem;   // 18px
+$taille-lg:    1.25rem;    // 20px
+$taille-xl:    1.5rem;     // 24px
+$taille-xxl:   2rem;       // 32px
+$taille-xxxl:  2.5rem;     // 40px
+$taille-hero:  3.5rem;     // 56px
+
+// Graisses (font-weight)
+$poids-light:    300;
+$poids-normal:   400;
+$poids-medium:   500;
+$poids-semibold: 600;
+$poids-bold:     700;
+$poids-black:    900;
+
+// Hauteur de ligne
+$line-height-serré:  1.2;
+$line-height-normal: 1.6;
+$line-height-aéré:   1.8;
+
+
+// ----- 📦 BORDURES & ARRONDIS -----
+$border-radius-sm:    4px;
+$border-radius:       8px;
+$border-radius-lg:    12px;
+$border-radius-xl:    20px;
+$border-radius-rond:  50%;     // Pour faire un cercle
+$border-radius-pill:  9999px;  // Forme de pilule
+
+$bordure-couleur:     #e0e0e0;
+$bordure:             1px solid $bordure-couleur;
+
+
+// ----- 🌑 OMBRES -----
+// Du plus subtil au plus prononcé
+$ombre-xs:    0 1px 2px rgba(0, 0, 0, 0.05);
+$ombre-sm:    0 2px 4px rgba(0, 0, 0, 0.1);
+$ombre-md:    0 4px 12px rgba(0, 0, 0, 0.15);
+$ombre-lg:    0 8px 24px rgba(0, 0, 0, 0.2);
+$ombre-xl:    0 16px 48px rgba(0, 0, 0, 0.25);
+
+// Ombre colorée (effet moderne / "glow")
+$ombre-primaire: 0 4px 14px rgba($couleur-primaire, 0.4);
+$ombre-succes:   0 4px 14px rgba($couleur-succes, 0.4);
+$ombre-danger:   0 4px 14px rgba($couleur-danger, 0.4);
+
+
+// ----- ⏱️ TRANSITIONS -----
+$transition-rapide:   all 0.15s ease;
+$transition-normale:  all 0.3s ease;
+$transition-lente:    all 0.5s ease;
+$transition-bounce:   all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+
+// ----- 📱 BREAKPOINTS (Responsive) -----
+// Les tailles d'écran où le design change
+$breakpoint-mobile:   480px;
+$breakpoint-tablette: 768px;
+$breakpoint-laptop:   1024px;
+$breakpoint-desktop:  1200px;
+$breakpoint-wide:     1400px;
+
+
+// ----- 📏 DIMENSIONS -----
+$largeur-max:        1200px;
+$largeur-max-etroit: 800px;
+$navbar-hauteur:     70px;
+$sidebar-largeur:    260px;
+
+
+// ----- 🗂️ Z-INDEX -----
+// On centralise les z-index pour éviter la guerre des z-index
+$z-dropdown:   100;
+$z-sticky:     200;
+$z-navbar:     300;
+$z-overlay:    400;
+$z-modal:      500;
+$z-toast:      600;
+$z-tooltip:    700;
